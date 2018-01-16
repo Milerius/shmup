@@ -13,7 +13,7 @@ else
     __spawn_timer__ = 0
 end
 
-local X_RANGE = 0
+local X_RANGE = 19
 
 function createEnemy()
     createNoNameEntity("Enemy",
