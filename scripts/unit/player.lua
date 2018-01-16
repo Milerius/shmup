@@ -26,22 +26,29 @@ local function initInput()
     keyMods[UP] = { x = 0, z = -1 }
     keyMods[DOWN] = { x = 0, z = 1 }
 
-    local movement = self:getPhysicsComponent().movement
+    local phys = self:getPhysicsComponent()
+    local movement = phys.movement
+    phys.speed = 0.3
 
     local function onPress(key)
-        if keyMods[key] then
-            movement.x = movement.x + keyMods[key].x
-            movement.z = movement.z + keyMods[key].z
+        local mod = keyMods[key]
+        if not mod then return end
+
+        if mod.x ~= 0 then
+            movement.x = mod.x
+        elseif mod.z ~= 0 then
+            movement.z = mod.z
         end
     end
 
     local function onRelease(key)
-        if keyMods[key] then
-            if keyMods[key].x ~= 0 then
-                movement.x = 0
-            elseif keyMods[key].z ~= 0 then
-                movement.z = 0
-            end
+        local mod = keyMods[key]
+        if not mod then return end
+
+        if mod.x ~= 0 then
+            movement.x = 0
+        elseif mod.z ~= 0 then
+            movement.z = 0
         end
     end
 

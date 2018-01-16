@@ -7,7 +7,7 @@ end
 local WAIT_TIME = 60
 
 if __spawn_timer__ and __spawn_timer__ < WAIT_TIME then
-    __spawn_timer__ = __spawn_timer__ + 1
+    __spawn_timer__ = __spawn_timer__ + getDeltaFrames()
     return
 else
     __spawn_timer__ = 0
