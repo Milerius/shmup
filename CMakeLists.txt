@@ -35,7 +35,7 @@ file(GLOB commonFiles
 file(GLOB exeFiles src/*.cpp src/*.hpp)
 
 set(KENGINE_SFML TRUE)
-set(KENGINE_TEST TRUE)
+# set(KENGINE_TEST TRUE)
 add_subdirectory(kengine)
 
 add_executable(${exe_name} ${exeFiles} ${commonFiles})

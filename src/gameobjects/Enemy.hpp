@@ -10,11 +10,8 @@ public:
         auto & lua = attachComponent<kengine::LuaComponent>();
         lua.attachScript("scripts/unit/enemy.lua");
 
-        attachComponent<kengine::GraphicsComponent>("resources/enemy.jpg");
-
-        auto & phys = getComponent<kengine::PhysicsComponent>();
-        phys.movement.z = 1;
-        phys.speed = 1.0 / 60.0;
+        attachComponent<kengine::GraphicsComponent>("resources/ufoRed.png");
+        getComponent<kengine::TransformComponent3d>().boundingBox.topLeft.y = 1;
     }
 
     pmeta_get_class_name(Enemy);

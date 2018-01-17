@@ -1,10 +1,17 @@
 -- player script
 
-local me = self
-
 local function collideWith(name)
-    print("Player colliding with ", name)
+    removeEntity(name)
 end
+
+local function shoot()
+    print("Shoot!")
+end
+
+local me = self
+local comp = self:getLuaComponent()
+
+-- init helpers
 
 local function initCollisions()
     table.insert(collisionHandlers,
@@ -19,6 +26,18 @@ local function initCollisions()
 end
 
 local function initInput()
+    local phys = self:getPhysicsComponent()
+    local movement = phys.movement
+    phys.speed = 0.3
+
+    -- actions
+    local SPACE = 57
+    local keyFuncs = {}
+    keyFuncs[SPACE] = {
+        onPress = shoot
+    }
+
+    -- movement
     local LEFT = 71 ; local RIGHT = 72 ; local UP = 73 ; local DOWN = 74
     local keyMods = {}
     keyMods[LEFT] = { x = -1, z = 0 }
@@ -26,11 +45,12 @@ local function initInput()
     keyMods[UP] = { x = 0, z = -1 }
     keyMods[DOWN] = { x = 0, z = 1 }
 
-    local phys = self:getPhysicsComponent()
-    local movement = phys.movement
-    phys.speed = 0.3
-
     local function onPress(key)
+        local func = keyFuncs[key]
+        if func and func.onPress then
+            func.onPress()
+        end
+
         local mod = keyMods[key]
         if not mod then return end
 
@@ -42,6 +62,11 @@ local function initInput()
     end
 
     local function onRelease(key)
+        local func = keyFuncs[key]
+        if func and func.onRelease then
+            func.onRelease()
+        end
+
         local mod = keyMods[key]
         if not mod then return end
 
@@ -55,13 +80,19 @@ local function initInput()
     setKeyHandler(onPress, onRelease)
 end
 
-if not __player_init__ then
-    __player_init__ = true
+local function initAppearance()
+    self:getGraphicsComponent().appearance = "resources/playerShip1_orange.png"
+end
+
+-- init
+
+if not comp.meta then
+    comp.meta = {}
     initCollisions()
     initInput()
 end
 
--- main
+-- main helpers
 
 local function limitBounds()
     local LIMITS = { x = 19, z = 10 }
@@ -79,5 +110,7 @@ local function limitBounds()
         pos.z = LIMITS.z
     end
 end
+
+-- main
 
 limitBounds()

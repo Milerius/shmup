@@ -13,16 +13,14 @@ else
     __spawn_timer__ = 0
 end
 
-local X_RANGE = 19
+local Z_RANGE = 10
 
 function createEnemy()
-    createNoNameEntity("Enemy",
-        function (go)
-            local pos = go:getTransformComponent().boundingBox.topLeft
-            pos.x = math.random(0, X_RANGE)
-            pos.z = 0
-        end
-    )
+    createNoNameEntity("Enemy", function (go)
+        local pos = go:getTransformComponent().boundingBox.topLeft
+        pos.x = 21
+        pos.z = math.random(0, Z_RANGE)
+    end)
 end
 
 createEnemy()
