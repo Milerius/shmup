@@ -11,7 +11,9 @@ public:
         lua.attachScript("scripts/unit/player.lua");
         attachComponent<kengine::GraphicsComponent>("resources/playerShip1_orange.png");
 
-        getComponent<kengine::TransformComponent3d>().boundingBox.topLeft.y = 1;
+        auto & transform = getComponent<kengine::TransformComponent3d>();
+        transform.boundingBox.topLeft.y = 1;
+        transform.yaw = M_PI_2;
     }
 
     pmeta_get_class_name(Player);

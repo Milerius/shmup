@@ -15,6 +15,7 @@ int main(int, char **av) {
             kengine::LuaSystem, kengine::LuaCollisionSystem,
             kengine::PhysicsSystem, TypeRegisterSystem
     >("plugins");
+    em.removeSystem<TypeRegisterSystem>();
 
     while (em.running)
         em.execute();
