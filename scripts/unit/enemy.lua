@@ -9,8 +9,3 @@ if not comp.meta then
     phys.speed = 1 / 60
     phys.movement.x = -1
 end
-
-local pos = self:getTransformComponent().boundingBox.topLeft
-if pos.x < -1 then
-    removeEntity(self:getName())
-end

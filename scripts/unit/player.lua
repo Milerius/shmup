@@ -1,15 +1,19 @@
 -- player script
 
+local me = self
+local comp = self:getLuaComponent()
+
 local function collideWith(name)
-    removeEntity(name)
 end
 
 local function shoot()
-    print("Shoot!")
+    createNoNameEntity("FriendlyLaser", function (go)
+        local box = me:getTransformComponent().boundingBox
+        local pos = go:getTransformComponent().boundingBox.topLeft
+        pos.x = box.topLeft.x + box.size.x
+        pos.z = box.topLeft.z
+    end)
 end
-
-local me = self
-local comp = self:getLuaComponent()
 
 -- init helpers
 
