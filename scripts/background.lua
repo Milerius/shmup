@@ -1,6 +1,8 @@
 -- background
 
 if not __state__ or __state__ ~= "running" then
+    __background_first__ = nil
+    __background_timer__ = nil
     return
 end
 
@@ -34,13 +36,14 @@ function createBackground(postCreate)
 end
 
 if not __background_first__ then
+    __background_first__ = true
+
     createBackground(function (go)
         go:getTransformComponent().boundingBox.topLeft.x = 0
     end)
     createBackground(function (go)
         go:getTransformComponent().boundingBox.topLeft.x = SIZE
     end)
-    __background_first__ = true
 end
 
 createBackground()

@@ -16,6 +16,7 @@ TypeRegisterSystem::TypeRegisterSystem(kengine::EntityManager & em) {
             kengine::LuaComponent,
             kengine::TransformComponent3d, putils::Rect3d, putils::Point3d,
             kengine::PhysicsComponent, kengine::GraphicsComponent, kengine::CameraComponent3d,
+            kengine::GUIComponent,
             kengine::Text, kengine::KinematicObject,
             Player, Enemy,
             FriendlyLaser, EnemyLaser

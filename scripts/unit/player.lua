@@ -4,11 +4,22 @@ local me = self
 local comp = self:getLuaComponent()
 
 local function collideWith(name)
-    print("Colliding with ", name)
+    print("You lose!")
+    __state__ = "gameover"
 end
 
+local function laserHit(laser, name)
+    if string.find(name, "Laser") then
+        return
+    end
+    removeEntity(laser)
+    removeEntity(name)
+end
+
+local LASER = "FriendlyLaser"
+
 local function shoot()
-    createNoNameEntity("FriendlyLaser", function (go)
+    createNoNameEntity(LASER, function (go)
         local box = me:getTransformComponent().boundingBox
         local pos = go:getTransformComponent().boundingBox.topLeft
         pos.x = box.topLeft.x + box.size.x
@@ -25,6 +36,12 @@ local function initCollisions()
                 collideWith(other)
             elseif other == me:getName() then
                 collideWith(name)
+            end
+
+            if string.find(name, LASER) then
+                laserHit(name, other)
+            elseif string.find(other, LASER) then
+                laserHit(other, name)
             end
         end
     )
