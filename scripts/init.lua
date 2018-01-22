@@ -9,16 +9,6 @@ math.randomseed(os.time())
 
 createNoNameEntity("Player", function() end)
 
-createEntity("GameObject", "background", function (go)
-    go:attachGraphicsComponent().appearance = "resources/Backgrounds/blue.png"
-    local box = go:attachTransformComponent().boundingBox
-    box.size.x = 20
-    box.size.z = 11.25
-    box.topLeft.x = 0
-    box.topLeft.y = 0
-    box.topLeft.z = 0
-end)
-
 -- createEntity("GameObject", "minimap", function (go)
 --     local frustrum = go:attachCameraComponent().frustrum
 --     frustrum.topLeft.x = -100

@@ -4,6 +4,7 @@ local me = self
 local comp = self:getLuaComponent()
 
 local function collideWith(name)
+    print("Colliding with ", name)
 end
 
 local function shoot()
