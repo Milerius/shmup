@@ -1,9 +1,5 @@
 -- background
 
-if not __state__ or __state__ ~= "running" then
-    return
-end
-
 local SIZE = 12
 local SPEED = 240
 if __background_timer__ and __background_timer__ < (SIZE - 1) * SPEED then

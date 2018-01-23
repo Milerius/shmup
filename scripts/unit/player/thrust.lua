@@ -16,11 +16,12 @@ thrust = {
         t.yaw = transform.yaw
 
         local pos = t.boundingBox.topLeft
+        local size = t.boundingBox.size
         local mePos = transform.boundingBox.topLeft
         local meSize = transform.boundingBox.size
 
-        pos.x = mePos.x + meSize.x / 2 - math.cos(transform.yaw)
-        pos.z = mePos.z + meSize.z / 2 + math.sin(transform.yaw)
+        pos.x = mePos.x + (meSize.x / 2) - (size.x / 2) - math.cos(transform.yaw) * 0.9
+        pos.z = mePos.z + (meSize.z / 2) - (size.z / 2) + math.sin(transform.yaw) * 0.9
     end,
     undraw = function()
         local box = getEntity("thrust"):getTransformComponent().boundingBox
@@ -34,7 +35,7 @@ table.insert(player.init, function()
 
     createEntity("GameObject", "thrust", function (go)
         local box = go:attachTransformComponent().boundingBox
-        box.size.x = 0.5 ; box.size.z = 0.5
+        box.size.x = 0.2 ; box.size.z = 0.5
         box.topLeft.x = -box.size.x
         box.topLeft.z = -box.size.z
         box.topLeft.y = 1
@@ -42,6 +43,8 @@ table.insert(player.init, function()
         local graphics = go:attachGraphicsComponent()
         graphics.appearance = "resources/Effects/fire16.png"
         graphics.yaw = math.pi / 2
+
+        go:attachLuaComponent().meta = { noCleanup = true }
     end)
 end)
 

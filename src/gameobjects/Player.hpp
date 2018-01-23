@@ -11,7 +11,7 @@ public:
         lua.attachScript("scripts/unit/player.lua");
 
         auto & transform = getComponent<kengine::TransformComponent3d>();
-        transform.boundingBox.topLeft.y = 1;
+        transform.boundingBox.topLeft.y = 2;
 
         auto & graphics = attachComponent<kengine::GraphicsComponent>("resources/playerShip1_orange.png");
         graphics.yaw = -M_PI_2;

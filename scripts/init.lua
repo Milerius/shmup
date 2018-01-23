@@ -7,7 +7,18 @@ __state__ = "running"
 
 math.randomseed(os.time())
 
-createNoNameEntity("Player", function() end)
+createEntity("Player", "player", function(go)
+    go:getLuaComponent().meta = { noCleanup = true }
+end)
+
+-- createNoNameEntity("GameObject", function (go)
+--     go:attachGraphicsComponent().appearance = "resources/wall.jpg"
+--     go:attachTransformComponent()
+--
+--     local lua = go:attachLuaComponent()
+--     lua:attachScript("scripts/unit/border.lua")
+--     lua.meta = { target = "player" }
+-- end)
 
 -- createEntity("GameObject", "minimap", function (go)
 --     local frustrum = go:attachCameraComponent().frustrum

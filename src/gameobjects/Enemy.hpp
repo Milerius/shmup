@@ -11,7 +11,7 @@ public:
         lua.attachScript("scripts/unit/enemy.lua");
 
         attachComponent<kengine::GraphicsComponent>("resources/ufoRed.png");
-        getComponent<kengine::TransformComponent3d>().boundingBox.topLeft.y = 1;
+        getComponent<kengine::TransformComponent3d>().boundingBox.topLeft.y = 2;
     }
 
     pmeta_get_class_name(Enemy);

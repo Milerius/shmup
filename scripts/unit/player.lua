@@ -32,9 +32,10 @@ end
 
 -- init
 
-local comp = self:getLuaComponent()
-if not comp.meta then
-    comp.meta = { rotation = 0 }
+local meta = self:getLuaComponent().meta
+if not meta.init then
+    meta.init = true
+    meta.rotation = 0
 
     player = { init = {}, update = {} }
     dofile "scripts/unit/player/thrust.lua"

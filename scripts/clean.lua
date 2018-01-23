@@ -6,7 +6,14 @@ end
 
 local BOUNDS = { x = 20, z = 11.25 }
 
-for i, go in ipairs(getGameObjectsWithTransformComponent()) do
+local function remove(go)
+    if go:hasLuaComponent() then
+        local meta = go:getLuaComponent().meta
+        if meta and meta.noCleanup then
+            return
+        end
+    end
+
     local box = go:getTransformComponent().boundingBox
     if box.topLeft.x - BOUNDS.x > 2 * box.size.x or
             box.topLeft.x < -2 * box.size.x or
@@ -14,4 +21,8 @@ for i, go in ipairs(getGameObjectsWithTransformComponent()) do
             box.topLeft.z < -2 * box.size.z then
         removeEntity(go:getName())
     end
+end
+
+for i, go in ipairs(getGameObjectsWithTransformComponent()) do
+    remove(go)
 end

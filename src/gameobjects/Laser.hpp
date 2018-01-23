@@ -26,7 +26,7 @@ public:
     EnemyLaser(std::string_view name) : KinematicObject(name) {
         auto & transform = getComponent<kengine::TransformComponent3d>();
         transform.boundingBox.size.x = 0.2;
-        transform.boundingBox.topLeft.y = 1;
+        transform.boundingBox.topLeft.y = 2;
 
         auto & phys = getComponent<kengine::PhysicsComponent>();
         phys.movement.x = -1;
