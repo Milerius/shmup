@@ -1,8 +1,6 @@
 -- background
 
 if not __state__ or __state__ ~= "running" then
-    __background_first__ = nil
-    __background_timer__ = nil
     return
 end
 
@@ -28,6 +26,8 @@ function createBackground(postCreate)
         local phys = go:getPhysicsComponent()
         phys.movement.x = -1 / SPEED
         phys.solid = false
+
+        go:attachLuaComponent().meta = { permanent = true }
 
         if postCreate then
             postCreate(go)
