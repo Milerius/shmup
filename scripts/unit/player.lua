@@ -2,6 +2,11 @@
 
 local me = self
 local comp = self:getLuaComponent()
+local transform = self:getTransformComponent()
+local phys = self:getPhysicsComponent()
+
+local SPACE = 57
+local LEFT = 71 ; local RIGHT = 72 ; local UP = 73 ; local DOWN = 74
 
 local function collideWith(name)
     print("You lose!")
@@ -20,12 +25,32 @@ local LASER = "FriendlyLaser"
 
 local function shoot()
     createNoNameEntity(LASER, function (go)
-        local box = me:getTransformComponent().boundingBox
+        local box = transform.boundingBox
         local pos = go:getTransformComponent().boundingBox.topLeft
         pos.x = box.topLeft.x + box.size.x
         pos.z = box.topLeft.z
     end)
 end
+
+local rotate = {
+    on = function(key)
+        local ANGLE_MOD = 0.2
+
+        local factors = {}
+        factors[LEFT] = 1
+        factors[RIGHT] = -1
+
+        comp.meta.rotation = ANGLE_MOD * factors[key]
+    end,
+    off = function()
+        comp.meta.rotation = 0
+    end
+}
+
+local thrust = {
+    on = function() comp.meta.thrust = true end,
+    off = function() comp.meta.thrust = false end
+}
 
 -- init helpers
 
@@ -48,54 +73,28 @@ local function initCollisions()
 end
 
 local function initInput()
-    local phys = self:getPhysicsComponent()
     local movement = phys.movement
     phys.speed = 0.3
 
     -- actions
-    local SPACE = 57
-    local keyFuncs = {}
-    keyFuncs[SPACE] = {
-        onPress = shoot
-    }
 
-    -- movement
-    local LEFT = 71 ; local RIGHT = 72 ; local UP = 73 ; local DOWN = 74
-    local keyMods = {}
-    keyMods[LEFT] = { x = -1, z = 0 }
-    keyMods[RIGHT] = { x = 1, z = 0 }
-    keyMods[UP] = { x = 0, z = -1 }
-    keyMods[DOWN] = { x = 0, z = 1 }
+    local keyFuncs = {}
+    keyFuncs[SPACE] = { onPress = shoot }
+    keyFuncs[LEFT] = { onPress = rotate.on, onRelease = rotate.off }
+    keyFuncs[RIGHT] = { onPress = rotate.on, onRelease = rotate.off }
+    keyFuncs[UP] = { onPress = thrust.on, onRelease = thrust.off }
 
     local function onPress(key)
         local func = keyFuncs[key]
         if func and func.onPress then
-            func.onPress()
-        end
-
-        local mod = keyMods[key]
-        if not mod then return end
-
-        if mod.x ~= 0 then
-            movement.x = mod.x
-        elseif mod.z ~= 0 then
-            movement.z = mod.z
+            func.onPress(key)
         end
     end
 
     local function onRelease(key)
         local func = keyFuncs[key]
         if func and func.onRelease then
-            func.onRelease()
-        end
-
-        local mod = keyMods[key]
-        if not mod then return end
-
-        if mod.x ~= 0 then
-            movement.x = 0
-        elseif mod.z ~= 0 then
-            movement.z = 0
+            func.onRelease(key)
         end
     end
 
@@ -109,7 +108,7 @@ end
 -- init
 
 if not comp.meta then
-    comp.meta = {}
+    comp.meta = { rotation = 0 }
     initCollisions()
     initInput()
 end
@@ -119,7 +118,7 @@ end
 local function limitBounds()
     local LIMITS = { x = 19, z = 10 }
 
-    local pos = self:getTransformComponent().boundingBox.topLeft
+    local pos = transform.boundingBox.topLeft
     if pos.x < 0 then
         pos.x = 0
     elseif pos.x > LIMITS.x then
@@ -133,6 +132,35 @@ local function limitBounds()
     end
 end
 
+local function updateRotation()
+    transform.yaw = transform.yaw + comp.meta.rotation
+end
+
+local function updateThrust()
+    local THRUST = 0.1
+    local SLOWDOWN = 0.1
+
+    local function slowDirection(dir)
+        local current = phys.movement[dir]
+        if current < SLOWDOWN and current > -SLOWDOWN then
+            phys.movement[dir] = 0
+        else
+            phys.movement[dir] = current - current * SLOWDOWN
+        end
+        print(dir, phys.movement[dir])
+    end
+
+    if comp.meta.thrust then
+        phys.movement.x = phys.movement.x + math.cos(transform.yaw) * THRUST
+        phys.movement.z = phys.movement.z - math.sin(transform.yaw) * THRUST
+    else
+        slowDirection("x")
+        slowDirection("z")
+    end
+end
+
 -- main
 
 limitBounds()
+updateRotation()
+updateThrust()
