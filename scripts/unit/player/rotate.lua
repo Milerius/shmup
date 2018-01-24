@@ -4,7 +4,7 @@ local LEFT = 71 ; local RIGHT = 72
 local transform = self:getTransformComponent()
 local meta = self:getLuaComponent().meta
 
-local ANGLE_MOD = 0.1
+local ANGLE_MOD = 0.05
 
 rotate = {
     on = function(key)
@@ -21,5 +21,5 @@ rotate = {
 }
 
 table.insert(player.update, function()
-    transform.yaw = transform.yaw + meta.rotation
+    transform.yaw = transform.yaw + meta.rotation * getDeltaFrames()
 end)

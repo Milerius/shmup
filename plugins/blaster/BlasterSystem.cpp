@@ -21,7 +21,7 @@ void BlasterSystem::execute() noexcept {
             if (comp.currDelay == 0)
                 fire(*go, comp);
 
-            ++comp.currDelay;
+            comp.currDelay += time.getDeltaFrames();
             comp.currDelay %= comp.shootDelay;
         } else
             comp.currDelay = 0;
