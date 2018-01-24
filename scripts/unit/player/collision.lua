@@ -1,7 +1,7 @@
 -- player.collision
 
 local me = self
-local LASER = "FriendlyLaser"
+local LASER = "player"
 
 table.insert(player.init, function()
     table.insert(collisionHandlers,
@@ -12,9 +12,13 @@ table.insert(player.init, function()
                 collideWith(name)
             end
 
-            if string.find(name, LASER) then
+            local go = getEntity(name)
+            if go:hasLaserComponent() and go:getLaserComponent().type == LASER then
                 laserHit(name, other)
-            elseif string.find(other, LASER) then
+            end
+
+            local go = getEntity(other)
+            if go:hasLaserComponent() and go:getLaserComponent().type == LASER then
                 laserHit(other, name)
             end
         end

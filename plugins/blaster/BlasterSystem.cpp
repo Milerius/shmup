@@ -16,12 +16,15 @@ BlasterSystem::BlasterSystem(kengine::EntityManager & em) : _em(em) {
 void BlasterSystem::execute() noexcept {
     for (const auto go : _em.getGameObjects<BlasterComponent>()) {
         auto & comp = go->getComponent<BlasterComponent>();
+
         if (comp.firing) {
             if (comp.currDelay == 0)
                 fire(*go, comp);
+
             ++comp.currDelay;
             comp.currDelay %= comp.shootDelay;
-        }
+        } else
+            comp.currDelay = 0;
     }
 }
 
