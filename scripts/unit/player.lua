@@ -2,42 +2,55 @@
 
 local me = self
 local transform = self:getTransformComponent()
+local blaster = self:getBlasterComponent()
 
-local LASER = "FriendlyLaser"
+local LASER = "player"
 
 function collideWith(name)
-    if string.find(name, LASER) then
+    local go = getEntity(name)
+    if go:hasLaserComponent() and go:getLaserComponent().type == LASER then
         return
     end
+
     print("You lose!")
     __state__ = "gameover"
 end
 
 function laserHit(laser, name)
-    if string.find(name, "Laser") or name == me:getName() then
+    local go = getEntity(name)
+    if go:hasLaserComponent() or name == me:getName() then
         return
     end
     removeEntity(laser)
     removeEntity(name)
 end
 
-function shoot()
-    createNoNameEntity(LASER, function (go)
-        local box = transform.boundingBox
-        local laserTransform = go:getTransformComponent()
-        laserTransform.yaw = transform.yaw
+shoot = {
+    on = function ()
+        blaster.firing = true
+    end,
+    off = function()
+        blaster.firing = false
+    end
+}
 
-        local laserBox = laserTransform.boundingBox
-        local pos = laserBox.topLeft
-        local size = laserBox.size
-        pos.x = box.topLeft.x + (box.size.x / 2) - (size.x / 2) + math.cos(transform.yaw)
-        pos.z = box.topLeft.z + (box.size.z / 2) - (size.z / 2) - math.sin(transform.yaw)
-
-        local movement = go:getPhysicsComponent().movement
-        movement.x = math.cos(transform.yaw)
-        movement.z = -math.sin(transform.yaw)
-    end)
-end
+-- function shoot()
+--     createNoNameEntity(LASER, function (go)
+--         local box = transform.boundingBox
+--         local laserTransform = go:getTransformComponent()
+--         laserTransform.yaw = transform.yaw
+--
+--         local laserBox = laserTransform.boundingBox
+--         local pos = laserBox.topLeft
+--         local size = laserBox.size
+--         pos.x = box.topLeft.x + (box.size.x / 2) - (size.x / 2) + math.cos(transform.yaw)
+--         pos.z = box.topLeft.z + (box.size.z / 2) - (size.z / 2) - math.sin(transform.yaw)
+--
+--         local movement = go:getPhysicsComponent().movement
+--         movement.x = math.cos(transform.yaw)
+--        movement.z = -math.sin(transform.yaw)
+--    end)
+-- end
 
 -- init
 
@@ -74,6 +87,13 @@ local function limitBoundaries()
         pos.z = 0
     elseif pos.z > LIMITS.z then
         pos.z = LIMITS.z
+    end
+end
+
+local function fire()
+    if not player.shoot then
+        player.shootDelay = 0
+        return
     end
 end
 

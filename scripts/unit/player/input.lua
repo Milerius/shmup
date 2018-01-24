@@ -7,7 +7,7 @@ local thrust = self:getThrustComponent()
 
 table.insert(player.init, function()
     local keyFuncs = {}
-    keyFuncs[SPACE] = { onPress = shoot }
+    keyFuncs[SPACE] = { onPress = shoot.on, onRelease = shoot.off }
     keyFuncs[LEFT] = { onPress = rotate.on, onRelease = rotate.off }
     keyFuncs[RIGHT] = { onPress = rotate.on, onRelease = rotate.off }
     keyFuncs[UP] = {

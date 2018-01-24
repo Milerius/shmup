@@ -15,7 +15,7 @@ public:
 
         auto & graphics = attachComponent<kengine::GraphicsComponent>();
         graphics.appearance = "resources/Effects/fire16.png";
-        graphics.yaw = M_PI_2;
+        graphics.yaw = -M_PI_2;
     }
 
     pmeta_get_class_name(Thrust);

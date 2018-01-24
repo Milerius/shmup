@@ -10,11 +10,7 @@ local SPAWN = { x = 9, z = 5 }
 math.randomseed(os.time())
 
 createEntity("Player", "player", function(go)
-    local thrust = go:attachThrustComponent()
-    thrust.thrust = 0.1
-    thrust.slowdown = 0.01;
-
-    go:getPhysicsComponent().speed = 0.1;
+    go:getBlasterComponent().type = "player"
 
     go:getLuaComponent().meta = { noCleanup = true }
 

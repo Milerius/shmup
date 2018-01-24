@@ -9,7 +9,6 @@
 #include "common/components/CameraComponent.hpp"
 #include "gameobjects/Player.hpp"
 #include "gameobjects/Enemy.hpp"
-#include "gameobjects/Laser.hpp"
 
 TypeRegisterSystem::TypeRegisterSystem(kengine::EntityManager & em) {
     em.registerTypes<kengine::LuaSystem,
@@ -18,7 +17,6 @@ TypeRegisterSystem::TypeRegisterSystem(kengine::EntityManager & em) {
             kengine::PhysicsComponent, kengine::GraphicsComponent, kengine::CameraComponent3d,
             kengine::GUIComponent,
             kengine::Text, kengine::KinematicObject,
-            Player, Enemy,
-            FriendlyLaser, EnemyLaser
+            Player, Enemy
     >();
 }
