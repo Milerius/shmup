@@ -28,7 +28,9 @@ end, function (key) end)
 
 createEntity("Text", "gameover", function (go)
     local gui = go:getGUIComponent()
-    gui.text = "Game Over"
+    gui.text = "Score: " .. SCORE
+    SCORE = 0
+
     gui.font = "resources/font.ttf"
     gui.textSize = 40
 

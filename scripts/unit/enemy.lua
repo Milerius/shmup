@@ -42,16 +42,15 @@ end
 
 if not comp.meta then
     comp.meta = {}
-    self:attachGraphicsComponent().appearance = "resources/ufoRed.png"
-
     phys.speed = 1 / 60
-    -- phys.movement.x = -1
 end
 
 -- main
 
 local target = getEntity("player"):getTransformComponent().boundingBox.topLeft
 local angle = transform.boundingBox.topLeft:angleToXZ(target)
+
+transform.yaw = -angle + math.pi
 phys.movement.x = math.cos(angle)
 phys.movement.z = math.sin(angle)
 

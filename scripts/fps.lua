@@ -2,6 +2,7 @@
 
 if not __state__ or __state__ ~= "running" then
     __fps_init__ = nil
+    return
 end
 
 if not __fps_init__ then
@@ -15,7 +16,7 @@ if not __fps_init__ then
         gui.font = "resources/font.ttf"
 
         local pos = go:getTransformComponent().boundingBox.topLeft
-        pos.y = 1
+        pos.y = 10
     end)
 end
 

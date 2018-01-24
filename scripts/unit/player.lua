@@ -22,6 +22,7 @@ function laserHit(laser, name)
     end
     removeEntity(laser)
     removeEntity(name)
+    SCORE = SCORE + 1
 end
 
 -- init
