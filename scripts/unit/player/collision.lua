@@ -15,11 +15,11 @@ table.insert(player.init, function()
             local go = getEntity(name)
             if go:hasLaserComponent() and go:getLaserComponent().type == LASER then
                 laserHit(name, other)
-            end
-
-            local go = getEntity(other)
-            if go:hasLaserComponent() and go:getLaserComponent().type == LASER then
-                laserHit(other, name)
+            else
+                local go = getEntity(other)
+                if go:hasLaserComponent() and go:getLaserComponent().type == LASER then
+                    laserHit(other, name)
+                end
             end
         end
     )

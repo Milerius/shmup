@@ -2,7 +2,6 @@
 
 local me = self
 local transform = self:getTransformComponent()
-local blaster = self:getBlasterComponent()
 
 local LASER = "player"
 
@@ -25,39 +24,14 @@ function laserHit(laser, name)
     removeEntity(name)
 end
 
-shoot = {
-    on = function ()
-        blaster.firing = true
-    end,
-    off = function()
-        blaster.firing = false
-    end
-}
-
--- function shoot()
---     createNoNameEntity(LASER, function (go)
---         local box = transform.boundingBox
---         local laserTransform = go:getTransformComponent()
---         laserTransform.yaw = transform.yaw
---
---         local laserBox = laserTransform.boundingBox
---         local pos = laserBox.topLeft
---         local size = laserBox.size
---         pos.x = box.topLeft.x + (box.size.x / 2) - (size.x / 2) + math.cos(transform.yaw)
---         pos.z = box.topLeft.z + (box.size.z / 2) - (size.z / 2) - math.sin(transform.yaw)
---
---         local movement = go:getPhysicsComponent().movement
---         movement.x = math.cos(transform.yaw)
---        movement.z = -math.sin(transform.yaw)
---    end)
--- end
-
 -- init
 
 local meta = self:getLuaComponent().meta
 if not meta.init then
     meta.init = true
     meta.rotation = 0
+
+    self:getBlasterComponent().shootDelay = 10
 
     player = { init = {}, update = {} }
     dofile "scripts/unit/player/rotate.lua"
@@ -87,13 +61,6 @@ local function limitBoundaries()
         pos.z = 0
     elseif pos.z > LIMITS.z then
         pos.z = LIMITS.z
-    end
-end
-
-local function fire()
-    if not player.shoot then
-        player.shootDelay = 0
-        return
     end
 end
 
