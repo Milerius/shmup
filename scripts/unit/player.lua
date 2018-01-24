@@ -47,7 +47,6 @@ if not meta.init then
     meta.rotation = 0
 
     player = { init = {}, update = {} }
-    dofile "scripts/unit/player/thrust.lua"
     dofile "scripts/unit/player/rotate.lua"
     dofile "scripts/unit/player/collision.lua"
     dofile "scripts/unit/player/input.lua"

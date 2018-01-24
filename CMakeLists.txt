@@ -24,7 +24,10 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${bindir}/plugins)
 
 set(exe_name shmup)
 
-file(GLOB commonFiles
+add_library(api INTERFACE)
+target_include_directories(api INTERFACE common)
+
+file(GLOB exeFiles src/*.cpp src/*.hpp
         src/components/*.cpp
         src/components/*.hpp
         src/gameobjects/*.cpp
@@ -32,16 +35,16 @@ file(GLOB commonFiles
         src/systems/*.cpp
         src/systems/*.hpp)
 
-file(GLOB exeFiles src/*.cpp src/*.hpp)
-
 set(KENGINE_SFML TRUE)
 # set(KENGINE_TEST TRUE)
 add_subdirectory(kengine)
 
 add_executable(${exe_name} ${exeFiles} ${commonFiles})
-target_include_directories(${exe_name} PRIVATE src common)
-target_link_libraries(${exe_name} kengine lua)
+target_include_directories(${exe_name} PRIVATE src)
+target_link_libraries(${exe_name} kengine lua api)
 include(cotire)
 cotire(${exe_name})
+
+add_subdirectory(plugins)
 
 file(COPY resources scripts sf-config.json DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
