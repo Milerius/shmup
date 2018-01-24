@@ -11,7 +11,6 @@ public:
         transform.boundingBox.topLeft.y = 2;
 
         auto & phys = getComponent<kengine::PhysicsComponent>();
-        phys.movement.x = 1;
         phys.speed = 0.2;
 
         auto & graphics = attachComponent<kengine::GraphicsComponent>("resources/Lasers/laserBlue01.png");
@@ -29,11 +28,10 @@ public:
         transform.boundingBox.topLeft.y = 2;
 
         auto & phys = getComponent<kengine::PhysicsComponent>();
-        phys.movement.x = -1;
         phys.speed = 0.2;
 
         auto & graphics = attachComponent<kengine::GraphicsComponent>("resources/Lasers/laserRed01.png");
-        graphics.yaw = M_PI_2;
+        graphics.yaw = -M_PI_2;
     }
 
     pmeta_get_class_name(EnemyLaser);

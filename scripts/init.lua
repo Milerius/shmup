@@ -5,10 +5,14 @@ if __state__ then
 end
 __state__ = "running"
 
+local SPAWN = { x = 9, z = 5 }
+
 math.randomseed(os.time())
 
 createEntity("Player", "player", function(go)
     go:getLuaComponent().meta = { noCleanup = true }
+    local pos = go:getTransformComponent().boundingBox.topLeft
+    pos.x = SPAWN.x ; pos.z = SPAWN.z
 end)
 
 -- createNoNameEntity("GameObject", function (go)

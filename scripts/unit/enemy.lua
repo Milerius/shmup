@@ -45,10 +45,15 @@ if not comp.meta then
     self:attachGraphicsComponent().appearance = "resources/ufoRed.png"
 
     phys.speed = 1 / 60
-    phys.movement.x = -1
+    -- phys.movement.x = -1
 end
 
 -- main
+
+local target = getEntity("player"):getTransformComponent().boundingBox.topLeft
+local angle = transform.boundingBox.topLeft:angleToXZ(target)
+phys.movement.x = math.cos(angle)
+phys.movement.z = math.sin(angle)
 
 local WAIT_TIME = 60
 if comp.meta.shootDelay and comp.meta.shootDelay < WAIT_TIME then

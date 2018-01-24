@@ -1,8 +1,8 @@
 -- player.thrust
 
-local SPEED = 0.3
+local SPEED = 0.1
 local THRUST = 0.1
-local SLOWDOWN = 0.1
+local SLOWDOWN = 0.01
 
 local meta = self:getLuaComponent().meta
 local transform = self:getTransformComponent()

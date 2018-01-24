@@ -4,9 +4,10 @@ local LEFT = 71 ; local RIGHT = 72
 local transform = self:getTransformComponent()
 local meta = self:getLuaComponent().meta
 
+local ANGLE_MOD = 0.1
+
 rotate = {
     on = function(key)
-        local ANGLE_MOD = 0.2
 
         local factors = {}
         factors[LEFT] = 1

@@ -24,9 +24,18 @@ end
 function shoot()
     createNoNameEntity(LASER, function (go)
         local box = transform.boundingBox
-        local pos = go:getTransformComponent().boundingBox.topLeft
-        pos.x = box.topLeft.x + box.size.x
-        pos.z = box.topLeft.z
+        local laserTransform = go:getTransformComponent()
+        laserTransform.yaw = transform.yaw
+
+        local laserBox = laserTransform.boundingBox
+        local pos = laserBox.topLeft
+        local size = laserBox.size
+        pos.x = box.topLeft.x + (box.size.x / 2) - (size.x / 2) + math.cos(transform.yaw)
+        pos.z = box.topLeft.z + (box.size.z / 2) - (size.z / 2) - math.sin(transform.yaw)
+
+        local movement = go:getPhysicsComponent().movement
+        movement.x = math.cos(transform.yaw)
+        movement.z = -math.sin(transform.yaw)
     end)
 end
 

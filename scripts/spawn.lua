@@ -15,12 +15,23 @@ end
 
 local Z_RANGE = 10
 
-function createEnemy()
+local function createEnemy(coord)
     createNoNameEntity("Enemy", function (go)
         local pos = go:getTransformComponent().boundingBox.topLeft
-        pos.x = 21
-        pos.z = math.random(0, Z_RANGE)
+        pos.x = coord.x
+        pos.z = coord.z
     end)
 end
 
-createEnemy()
+local function pickCorner()
+    local corners = {
+        { x = -1, z = -1 },
+        { x = 21, z = -1 },
+        { x = -1, z = 12 },
+        { x = 21, z = 12 }
+    }
+
+    return corners[math.random(#corners)]
+end
+
+createEnemy(pickCorner())
