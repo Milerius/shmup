@@ -5,6 +5,7 @@
 #include "common/gameobjects/KinematicObject.hpp"
 #include "components/ThrustComponent.hpp"
 #include "components/BlasterComponent.hpp"
+#include "components/RotationComponent.hpp"
 
 class Player : public kengine::KinematicObject {
 public:
@@ -14,11 +15,9 @@ public:
         auto & transform = getComponent<kengine::TransformComponent3d>();
         transform.boundingBox.topLeft.y = 2;
 
-        auto & thrust = attachComponent<ThrustComponent>();
-        thrust.thrust = 0.1;
-        thrust.slowdown = 0.01;
-
-        auto & blaster = attachComponent<BlasterComponent>();
+        attachComponent<ThrustComponent>();
+        attachComponent<BlasterComponent>();
+        attachComponent<RotationComponent>();
 
         auto & lua = attachComponent<kengine::LuaComponent>();
         lua.attachScript("scripts/unit/player.lua");

@@ -1,63 +1,61 @@
 -- enemy
 
-local me = self
 local comp = self:getLuaComponent()
 local transform = self:getTransformComponent()
-local phys = self:getPhysicsComponent()
 
-local function laserHit(laser, name)
-    if string.find(name, "Laser") then
-        return
+if not comp.meta.init then
+    comp.meta.init = true
+    local target = getEntity(comp.meta.target)
+    local targetPos = target:getTransformComponent().boundingBox.topLeft
+    transform.yaw = transform.boundingBox.topLeft:angleToXZ(targetPos)
+end
+
+-- helper
+
+local function normalizeRadian(rad)
+    rad = math.fmod(rad, math.pi * 2)
+    if rad < 0 then
+        rad = rad + math.pi * 2
     end
-    removeEntity(laser)
-    removeEntity(name)
-end
-
-local LASER = "EnemyLaser"
-
-local function shoot()
-    createNoNameEntity(LASER, function (go)
-        local box = transform.boundingBox
-        local pos = go:getTransformComponent().boundingBox.topLeft
-        pos.x = box.topLeft.x - box.size.x
-        pos.z = box.topLeft.z
-    end)
-end
-
--- init
-
-if not __enemy_init__ then
-    __enemy_init__ = true
-
-    table.insert(collisionHandlers, function (name, other)
-        if string.find(name, LASER) then
-            laserHit(name, other)
-        elseif string.find(other, LASER) then
-            laserHit(other, name)
-        end
-    end)
-end
-
--- personal init
-
-if not comp.meta then
-    comp.meta = {}
-    phys.speed = 1 / 60
+    return rad
 end
 
 -- main
 
-local target = getEntity("player"):getTransformComponent().boundingBox.topLeft
-local angle = transform.boundingBox.topLeft:angleToXZ(target)
+local target = getEntity(comp.meta.target):getTransformComponent().boundingBox.topLeft
+local pos = transform.boundingBox.topLeft
+local angle = normalizeRadian(pos:angleToXZ(target))
+local yaw = normalizeRadian(transform.yaw)
 
-transform.yaw = -angle + math.pi
-phys.movement.x = math.cos(angle)
-phys.movement.z = math.sin(angle)
+local thrust = self:getThrustComponent()
+local rotation = self:getRotationComponent()
 
-local WAIT_TIME = 60
-if comp.meta.shootDelay and comp.meta.shootDelay < WAIT_TIME then
-    comp.meta.shootDelay = comp.meta.shootDelay + 1
-else
-    comp.meta.shootDelay = 0
-    -- shoot()
+local THRUST_THRESHOLD = math.pi / 64
+local TURN_THRESHOLD = math.pi / 128
+
+local function adjustThrust()
+    if math.abs(angle - yaw) < THRUST_THRESHOLD then
+        thrust.on = true
+    else
+        thrust.on = false
+    end
 end
+
+local function adjustTurn()
+    if math.abs(angle - yaw) < TURN_THRESHOLD then
+        rotation.rotation = 0
+    else
+        if angle < yaw then
+            rotation.rotation = -1
+        else
+            rotation.rotation = 1
+        end
+
+        if math.abs(angle - yaw) > math.pi then
+            rotation.rotation = -rotation.rotation
+        end
+    end
+end
+
+adjustThrust()
+adjustTurn()

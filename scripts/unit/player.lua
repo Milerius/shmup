@@ -30,7 +30,7 @@ end
 local meta = self:getLuaComponent().meta
 if not meta.init then
     meta.init = true
-    meta.rotation = 0
+    self:getRotationComponent().rotationSpeed = 0.075
 
     self:getBlasterComponent().shootDelay = 10
 

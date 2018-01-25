@@ -18,13 +18,14 @@ void BlasterSystem::execute() noexcept {
         auto & comp = go->getComponent<BlasterComponent>();
 
         if (comp.firing) {
-            if (comp.currDelay == 0)
+            if (comp.currDelay >= comp.shootDelay) {
                 fire(*go, comp);
+                comp.currDelay -= comp.shootDelay;
+            }
 
             comp.currDelay += time.getDeltaFrames();
-            comp.currDelay %= comp.shootDelay;
         } else
-            comp.currDelay = 0;
+            comp.currDelay = comp.shootDelay;
     }
 }
 

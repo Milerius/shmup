@@ -18,15 +18,8 @@ table.insert(player.init, function()
         onRelease = function() thrust.on = false end
     }
 
-    keyFuncs[LEFT] = {
-        onPress = rotate.on,
-        onRelease = rotate.off
-    }
-
-    keyFuncs[RIGHT] = {
-        onPress = rotate.on,
-        onRelease = rotate.off
-    }
+    keyFuncs[LEFT] = { onPress = rotate.on, onRelease = rotate.off }
+    keyFuncs[RIGHT] = { onPress = rotate.on, onRelease = rotate.off }
 
     local function onPress(key)
         local func = keyFuncs[key]

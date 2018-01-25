@@ -21,7 +21,7 @@ end
 
 collisionHandlers = {}
 
-setKeyHandler(function (key)
+setKeyHandler(function ()
     removeEntity("gameover")
     __state__ = nil
 end, function (key) end)
