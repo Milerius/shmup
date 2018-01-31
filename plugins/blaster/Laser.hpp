@@ -1,5 +1,10 @@
 #pragma once
 
+#include <cmath>
+#ifndef M_PI
+# define M_PI 3.14159265358979323846264338327950288
+#endif
+#include <cmath>
 #include "common/gameobjects/KinematicObject.hpp"
 #include "common/components/GraphicsComponent.hpp"
 #include "components/LaserComponent.hpp"
@@ -17,7 +22,7 @@ public:
         phys.speed = 0.2;
 
         auto & graphics = attachComponent<kengine::GraphicsComponent>("resources/Lasers/laserRed01.png");
-        graphics.yaw = -M_PI_2;
+        graphics.yaw = -M_PI / 2;
     }
 
     pmeta_get_class_name(Laser);

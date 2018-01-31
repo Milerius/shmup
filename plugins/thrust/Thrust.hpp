@@ -1,5 +1,9 @@
 #pragma once
 
+#include <cmath>
+#ifndef M_PI
+# define M_PI 3.14159265358979323846264338327950288
+#endif
 #include "GameObject.hpp"
 #include "common/components/TransformComponent.hpp"
 #include "common/components/GraphicsComponent.hpp"
@@ -15,7 +19,7 @@ public:
 
         auto & graphics = attachComponent<kengine::GraphicsComponent>();
         graphics.appearance = "resources/Effects/fire16.png";
-        graphics.yaw = -M_PI_2;
+        graphics.yaw = -M_PI / 2;
     }
 
     pmeta_get_class_name(Thrust);
