@@ -12,11 +12,28 @@ math.randomseed(os.time())
 createEntity("Player", "player", function(go)
     go:getBlasterComponent().type = "player"
 
-    go:getLuaComponent().meta = { noCleanup = true }
+    go:getLuaComponent().meta = {}
 
     local pos = go:getTransformComponent().boundingBox.topLeft
     pos.x = SPAWN.x ; pos.z = SPAWN.z
 end)
+
+if not hasEntity("background") then
+    createEntity("GameObject", "background", function (go)
+        local graphics = go:attachGraphicsComponent()
+        graphics.appearance = "resources/Backgrounds/blue.png"
+        graphics.repeated = true
+
+        local box = go:attachTransformComponent().boundingBox
+        box.size.x = 4096
+        box.size.z = 4096
+        box.topLeft.x = -2048
+        box.topLeft.y = 0
+        box.topLeft.z = -2048
+
+        go:attachLuaComponent().meta = { noCleanup = true }
+    end)
+end
 
 -- createNoNameEntity("GameObject", function (go)
 --     go:attachGraphicsComponent().appearance = "resources/wall.jpg"
@@ -27,25 +44,10 @@ end)
 --     lua.meta = { target = "player" }
 -- end)
 
--- createEntity("GameObject", "minimap", function (go)
---     local frustrum = go:attachCameraComponent().frustrum
---     frustrum.topLeft.x = -100
---     frustrum.topLeft.z = -100
---     frustrum.size.x = 200
---     frustrum.size.z = 200
---
---     local box = go:attachTransformComponent().boundingBox
---     box.topLeft.x = 0.6
---     box.topLeft.z = 0
---     box.size.x = 0.4
---     box.size.z = 0.4
--- end)
+for _, go in ipairs(getGameObjectsWithGUIComponent()) do
+    go:attachLuaComponent().meta = { noCleanup = true }
+end
 
--- createEntity("GameObject", "camera", function (go)
---     local frustrum = go:attachCameraComponent().frustrum
---     frustrum.topLeft.x = 0
---     frustrum.topLeft.z = 0
---     frustrum.size.x = 20
---     frustrum.size.z = 11.25
---     go:attachTransformComponent()
--- end)
+for _, go in ipairs(getGameObjectsWithCameraComponent()) do
+    go:attachLuaComponent().meta = { noCleanup = true }
+end

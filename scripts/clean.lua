@@ -4,7 +4,12 @@ if not __state__ or __state__ ~= "running" then
     return
 end
 
-local BOUNDS = { x = 20, z = 11.25 }
+if not hasEntity("player") then
+    return
+end
+
+local THRESHOLD = 20
+local playerPos = getEntity("player"):getTransformComponent().boundingBox.topLeft
 
 local function remove(go)
     if go:hasLuaComponent() then
@@ -14,15 +19,12 @@ local function remove(go)
         end
     end
 
-    local box = go:getTransformComponent().boundingBox
-    if box.topLeft.x - BOUNDS.x > 2 * box.size.x or
-            box.topLeft.x < -2 * box.size.x or
-            box.topLeft.z - BOUNDS.z > 2 * box.size.z or
-            box.topLeft.z < -2 * box.size.z then
-        removeEntity(go:getName())
+    local pos = go:getTransformComponent().boundingBox.topLeft
+    if pos:distanceTo(playerPos) > THRESHOLD then
+        removeEntity(go)
     end
 end
 
-for i, go in ipairs(getGameObjectsWithTransformComponent()) do
+for i, go in ipairs(getGameObjectsWithPhysicsComponent()) do
     remove(go)
 end

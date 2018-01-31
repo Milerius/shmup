@@ -1,11 +1,11 @@
 -- enemy
 
-local comp = self:getLuaComponent()
+local meta = self:getLuaComponent().meta
 local transform = self:getTransformComponent()
 
-if not comp.meta.init then
-    comp.meta.init = true
-    local target = getEntity(comp.meta.target)
+if not meta.init then
+    meta.init = true
+    local target = getEntity(meta.target)
     local targetPos = target:getTransformComponent().boundingBox.topLeft
     transform.yaw = transform.boundingBox.topLeft:angleToXZ(targetPos)
 end
@@ -22,7 +22,7 @@ end
 
 -- main
 
-local target = getEntity(comp.meta.target):getTransformComponent().boundingBox.topLeft
+local target = getEntity(meta.target):getTransformComponent().boundingBox.topLeft
 local pos = transform.boundingBox.topLeft
 local angle = normalizeRadian(pos:angleToXZ(target))
 local yaw = normalizeRadian(transform.yaw)

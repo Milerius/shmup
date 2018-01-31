@@ -1,30 +1,23 @@
 -- gameover
 
-if not __state__ or __state__ ~= "gameover" then
+if not __state__ or __state__ ~= "gameover" or hasEntity("gameover") then
     return
 end
 __state__ = "waiting_gameover"
 
-local function removeIfNotPermanent(go)
+local function cleanup(go)
     if go:hasLuaComponent() then
         local meta = go:getLuaComponent().meta
-        if meta and meta.permanent then
+        if meta and meta.noCleanup then
             return
         end
     end
-    removeEntity(go:getName())
+    removeEntity(go)
 end
 
 for _, go in ipairs(getGameObjects()) do
-    removeIfNotPermanent(go)
+    cleanup(go)
 end
-
-collisionHandlers = {}
-
-setKeyHandler(function ()
-    removeEntity("gameover")
-    __state__ = nil
-end, function (key) end)
 
 createEntity("Text", "gameover", function (go)
     local gui = go:getGUIComponent()
@@ -34,9 +27,14 @@ createEntity("Text", "gameover", function (go)
     gui.font = "resources/font.ttf"
     gui.textSize = 40
 
-    local pos = go:getTransformComponent().boundingBox.topLeft
-    pos.x = 9
-    pos.z = 5
-    pos.y = 1
+    local pos = go:getGUIComponent().topLeft
+    pos.x = 0.5
+    pos.z = 0.5
+
+    go:getTransformComponent().boundingBox.topLeft.y = 10
 end)
 
+setKeyHandler(function ()
+    removeEntityByName("gameover")
+    __state__ = nil
+end, function () end)

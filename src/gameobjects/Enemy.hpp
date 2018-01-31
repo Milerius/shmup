@@ -1,5 +1,9 @@
 #pragma once
 
+#include <cmath>
+#ifndef M_PI
+# define M_PI 3.14159265358979323846264338327950288
+#endif
 #include "gameobjects/KinematicObject.hpp"
 #include "components/LuaComponent.hpp"
 #include "components/GraphicsComponent.hpp"
@@ -19,7 +23,7 @@ public:
         lua.attachScript("scripts/unit/enemy.lua");
 
         auto & graphics = attachComponent<kengine::GraphicsComponent>("resources/Enemies/enemyBlack1.png");
-        graphics.yaw = M_PI_2;
+        graphics.yaw = M_PI / 2;
     }
 
     pmeta_get_class_name(Enemy);

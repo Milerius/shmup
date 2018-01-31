@@ -14,7 +14,7 @@ else
     __spawn_timer__ = 0
 end
 
-local function createEnemy(coord)
+function createEnemy(coord)
     createNoNameEntity("Enemy", function (go)
         local transform = go:getTransformComponent()
         local pos = transform.boundingBox.topLeft
@@ -25,13 +25,16 @@ local function createEnemy(coord)
     end)
 end
 
-local corners = {
-    { x = -1, z = -1 },
-    { x = 21, z = -1 },
-    { x = -1, z = 12 },
-    { x = 21, z = 12 }
+local SCREEN = { x = 22, z = 13.25 }
+
+local playerPos = getEntity("player"):getTransformComponent().boundingBox.topLeft
+
+corners = {
+    { x = playerPos.x - SCREEN.x / 2, z = playerPos.z - SCREEN.z / 2 },
+    { x = playerPos.x - SCREEN.x / 2, z = playerPos.z + SCREEN.z / 2 },
+    { x = playerPos.x + SCREEN.x / 2, z = playerPos.z - SCREEN.z / 2 },
+    { x = playerPos.x + SCREEN.x / 2, z = playerPos.z + SCREEN.z / 2 }
 }
 
-for _, corner in ipairs(corners) do
-    createEnemy(corner)
-end
+dofile "scripts/levels/single_two_second.lua"
+dofile "scripts/levels/four_two_second.lua"
