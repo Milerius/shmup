@@ -1,12 +1,13 @@
 #include "TypeRegisterSystem.hpp"
 #include "EntityManager.hpp"
 
-#include "common/systems/LuaSystem.hpp"
+#include "systems/LuaSystem.hpp"
 
-#include "common/gameobjects/Text.hpp"
-#include "common/gameobjects/KinematicObject.hpp"
-#include "common/components/GraphicsComponent.hpp"
-#include "common/components/CameraComponent.hpp"
+#include "gameobjects/Text.hpp"
+#include "gameobjects/KinematicObject.hpp"
+#include "components/GraphicsComponent.hpp"
+#include "components/CameraComponent.hpp"
+#include "components/InputComponent.hpp"
 #include "gameobjects/Player.hpp"
 #include "gameobjects/Enemy.hpp"
 
@@ -15,7 +16,7 @@ TypeRegisterSystem::TypeRegisterSystem(kengine::EntityManager & em) {
             kengine::LuaComponent,
             kengine::TransformComponent3d, putils::Rect3d, putils::Point3d,
             kengine::PhysicsComponent, kengine::GraphicsComponent, kengine::CameraComponent3d,
-            kengine::GUIComponent,
+            kengine::GUIComponent, kengine::InputComponent,
             kengine::Text, kengine::KinematicObject,
             Player, Enemy
     >();

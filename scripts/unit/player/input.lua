@@ -5,35 +5,39 @@ local LEFT = 71 ; local RIGHT = 72 ; local UP = 73 ; local DOWN = 74
 
 local thrust = self:getThrustComponent()
 local blaster = self:getBlasterComponent()
+local rotation = self:getRotationComponent()
 
-table.insert(player.init, function()
-    local keyFuncs = {}
-    keyFuncs[SPACE] = {
-        onPress = function() blaster.firing = true end,
-        onRelease = function() blaster.firing = false end
-    }
+local keyFuncs = {}
 
-    keyFuncs[UP] = {
-        onPress = function () thrust.on = true end,
-        onRelease = function() thrust.on = false end
-    }
+keyFuncs[SPACE] = function (pressed)
+    blaster.firing = pressed
+end
 
-    keyFuncs[LEFT] = { onPress = rotate.on, onRelease = rotate.off }
-    keyFuncs[RIGHT] = { onPress = rotate.on, onRelease = rotate.off }
+keyFuncs[UP] = function (pressed)
+    thrust.on = pressed
+end
 
-    local function onPress(key)
-        local func = keyFuncs[key]
-        if func and func.onPress then
-            func.onPress(key)
-        end
+keyFuncs[LEFT] = function (pressed)
+    if pressed then
+        rotation.rotation = 1
+    else
+        rotation.rotation = 0
     end
+end
 
-    local function onRelease(key)
-        local func = keyFuncs[key]
-        if func and func.onRelease then
-            func.onRelease(key)
-        end
+keyFuncs[RIGHT] = function (pressed)
+    if pressed then
+        rotation.rotation = -1
+    else
+        rotation.rotation = 0
     end
+end
 
-    setKeyHandler(onPress, onRelease)
-end)
+local function onKey(key, pressed)
+    local func = keyFuncs[key]
+    if func then
+        func(pressed)
+    end
+end
+
+self:attachInputComponent().onKey = onKey

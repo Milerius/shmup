@@ -1,9 +1,11 @@
 #pragma once
 
 #include <cmath>
+
 #ifndef M_PI
 # define M_PI 3.14159265358979323846264338327950288
 #endif
+
 #include "gameobjects/KinematicObject.hpp"
 #include "components/LuaComponent.hpp"
 #include "components/GraphicsComponent.hpp"
@@ -17,7 +19,8 @@ public:
         getComponent<kengine::TransformComponent3d>().boundingBox.topLeft.y = 2;
 
         attachComponent<ThrustComponent>();
-        attachComponent<RotationComponent>();
+        attachComponent<BlasterComponent>().shootDelay = 10;
+        attachComponent<RotationComponent>().rotationSpeed = 0.05;
 
         auto & lua = attachComponent<kengine::LuaComponent>();
         lua.attachScript("scripts/unit/enemy.lua");

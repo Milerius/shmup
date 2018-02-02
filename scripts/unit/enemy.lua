@@ -5,6 +5,7 @@ local transform = self:getTransformComponent()
 
 if not meta.init then
     meta.init = true
+
     local target = getEntity(meta.target)
     local targetPos = target:getTransformComponent().boundingBox.topLeft
     transform.yaw = transform.boundingBox.topLeft:angleToXZ(targetPos)
@@ -22,19 +23,24 @@ end
 
 -- main
 
+if not hasEntity(meta.target) then
+    return
+end
+
 local target = getEntity(meta.target):getTransformComponent().boundingBox.topLeft
 local pos = transform.boundingBox.topLeft
 local angle = normalizeRadian(pos:angleToXZ(target))
 local yaw = normalizeRadian(transform.yaw)
-
-local thrust = self:getThrustComponent()
-local rotation = self:getRotationComponent()
+local angleDiff = math.abs(angle - yaw)
 
 local THRUST_THRESHOLD = math.pi / 64
 local TURN_THRESHOLD = math.pi / 128
+local FIRE_THRESHOLD = math.pi / 128
 
 local function adjustThrust()
-    if math.abs(angle - yaw) < THRUST_THRESHOLD then
+    local thrust = self:getThrustComponent()
+
+    if angleDiff < THRUST_THRESHOLD then
         thrust.on = true
     else
         thrust.on = false
@@ -42,20 +48,34 @@ local function adjustThrust()
 end
 
 local function adjustTurn()
-    if math.abs(angle - yaw) < TURN_THRESHOLD then
-        rotation.rotation = 0
-    else
-        if angle < yaw then
-            rotation.rotation = -1
-        else
-            rotation.rotation = 1
-        end
+    local rotation = self:getRotationComponent()
 
-        if math.abs(angle - yaw) > math.pi then
-            rotation.rotation = -rotation.rotation
-        end
+    if angleDiff < TURN_THRESHOLD then
+        rotation.rotation = 0
+        return
+    end
+
+    if angle < yaw then
+        rotation.rotation = -1
+    else
+        rotation.rotation = 1
+    end
+
+    if angleDiff > math.pi then
+        rotation.rotation = -rotation.rotation
+    end
+end
+
+local function fire()
+    local blaster = self:getBlasterComponent()
+
+    if angleDiff < FIRE_THRESHOLD then
+        blaster.firing = true
+    else
+        blaster.firing = false
     end
 end
 
 adjustThrust()
 adjustTurn()
+fire()

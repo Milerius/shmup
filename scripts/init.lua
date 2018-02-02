@@ -11,7 +11,6 @@ math.randomseed(os.time())
 
 createEntity("Player", "player", function(go)
     go:getBlasterComponent().type = "player"
-
     go:getLuaComponent().meta = {}
 
     local pos = go:getTransformComponent().boundingBox.topLeft
@@ -28,8 +27,8 @@ if not hasEntity("background") then
         box.size.x = 4096
         box.size.z = 4096
         box.topLeft.x = -2048
-        box.topLeft.y = 0
         box.topLeft.z = -2048
+        box.topLeft.y = 1
 
         go:attachLuaComponent().meta = { noCleanup = true }
     end)

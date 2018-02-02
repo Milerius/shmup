@@ -15,13 +15,11 @@ class Player : public kengine::KinematicObject {
 public:
     Player(std::string_view name) : KinematicObject(name) {
         getComponent<kengine::PhysicsComponent>().speed = 0.1;
-
-        auto & transform = getComponent<kengine::TransformComponent3d>();
-        transform.boundingBox.topLeft.y = 2;
+        getComponent<kengine::TransformComponent3d>().boundingBox.topLeft.y = 2;
 
         attachComponent<ThrustComponent>();
-        attachComponent<BlasterComponent>();
-        attachComponent<RotationComponent>();
+        attachComponent<BlasterComponent>().shootDelay = 10;
+        attachComponent<RotationComponent>().rotationSpeed = 0.075;
 
         auto & lua = attachComponent<kengine::LuaComponent>();
         lua.attachScript("scripts/unit/player.lua");

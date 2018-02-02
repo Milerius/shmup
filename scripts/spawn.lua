@@ -16,12 +16,13 @@ end
 
 function createEnemy(coord)
     createNoNameEntity("Enemy", function (go)
+        go:getBlasterComponent().type = "enemy"
+        go:getLuaComponent().meta = { target = "player" }
+
         local transform = go:getTransformComponent()
         local pos = transform.boundingBox.topLeft
         pos.x = coord.x
         pos.z = coord.z
-
-        go:getLuaComponent().meta = { target = "player" }
     end)
 end
 
@@ -36,5 +37,22 @@ corners = {
     { x = playerPos.x + SCREEN.x / 2, z = playerPos.z + SCREEN.z / 2 }
 }
 
-dofile "scripts/levels/single_two_second.lua"
-dofile "scripts/levels/four_two_second.lua"
+local function spawnOne()
+    createEnemy(corners[math.random(#corners)])
+end
+
+local function spawnFour()
+    for _, corner in ipairs(corners) do
+        createEnemy(corner)
+    end
+end
+
+if not SCORE then
+    return
+end
+
+if SCORE <= 5 then
+    spawnOne()
+else
+    spawnFour()
+end

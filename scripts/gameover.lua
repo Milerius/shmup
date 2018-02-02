@@ -1,6 +1,6 @@
 -- gameover
 
-if not __state__ or __state__ ~= "gameover" or hasEntity("gameover") then
+if not __state__ or __state__ ~= "gameover" then
     return
 end
 __state__ = "waiting_gameover"
@@ -28,13 +28,12 @@ createEntity("Text", "gameover", function (go)
     gui.textSize = 40
 
     local pos = go:getGUIComponent().topLeft
-    pos.x = 0.5
-    pos.z = 0.5
+    pos.x = 0.45
+    pos.z = 0.45
+    pos.y = 10
 
-    go:getTransformComponent().boundingBox.topLeft.y = 10
+    go:attachInputComponent().onKey = function ()
+        removeEntityByName("gameover")
+        __state__ = nil
+    end
 end)
-
-setKeyHandler(function ()
-    removeEntityByName("gameover")
-    __state__ = nil
-end, function () end)

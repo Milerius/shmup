@@ -66,6 +66,7 @@ void ThrustSystem::drawThrust(kengine::GameObject & go) noexcept {
 
     thrustPos.x = goPos.x + (goSize.x / 2) - (thrustSize.x / 2) - std::cos(goTransform.yaw) * 0.9;
     thrustPos.z = goPos.z + (goSize.z / 2) - (thrustSize.z / 2) + std::sin(goTransform.yaw) * 0.9;
+    thrustPos.y = 2;
 }
 
 void ThrustSystem::hideThrust(kengine::GameObject & go) noexcept {
@@ -76,8 +77,7 @@ void ThrustSystem::hideThrust(kengine::GameObject & go) noexcept {
 
     auto & thrust = _em.getEntity(name);
     auto & box = thrust.getComponent<kengine::TransformComponent3d>().boundingBox;
-    box.topLeft.x = -box.size.x;
-    box.topLeft.z = -box.size.z;
+    box.topLeft.y = 0;
 }
 
 void ThrustSystem::handle(const kengine::packets::RemoveGameObject & p) noexcept {

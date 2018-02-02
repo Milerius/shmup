@@ -17,15 +17,11 @@ void BlasterSystem::execute() noexcept {
     for (const auto go : _em.getGameObjects<BlasterComponent>()) {
         auto & comp = go->getComponent<BlasterComponent>();
 
-        if (comp.firing) {
-            if (comp.currDelay >= comp.shootDelay) {
-                fire(*go, comp);
-                comp.currDelay -= comp.shootDelay;
-            }
-
-            comp.currDelay += time.getDeltaFrames();
-        } else
-            comp.currDelay = comp.shootDelay;
+        if (comp.firing && comp.currDelay >= comp.shootDelay) {
+            fire(*go, comp);
+            comp.currDelay -= comp.shootDelay;
+        }
+        comp.currDelay += time.getDeltaFrames();
     }
 }
 
@@ -49,4 +45,18 @@ void BlasterSystem::fire(const kengine::GameObject & go, const BlasterComponent 
         movement.x = std::cos(transform.yaw);
         movement.z = -std::sin(transform.yaw);
     });
+}
+
+void BlasterSystem::handle(const kengine::packets::Collision & p) noexcept {
+    checkCollision(p.first, p.second);
+    checkCollision(p.second, p.first);
+}
+
+void BlasterSystem::checkCollision(kengine::GameObject & go, kengine::GameObject & other) noexcept {
+    if (!go.hasComponent<LaserComponent>() || other.hasComponent<LaserComponent>())
+        return;
+    if (other.hasComponent<BlasterComponent>() && other.getComponent<BlasterComponent>().type == go.getComponent<LaserComponent>().type)
+        return;
+    _em.removeEntity(go);
+    _em.removeEntity(other);
 }
