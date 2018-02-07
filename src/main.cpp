@@ -1,8 +1,9 @@
 #include "go_to_bin_dir.hpp"
 
-#include "common/systems/PhysicsSystem.hpp"
-#include "common/systems/LuaSystem.hpp"
-#include "common/systems/LuaCollisionSystem.hpp"
+#include "systems/PhysicsSystem.hpp"
+#include "systems/PySystem.hpp"
+#include "systems/LuaSystem.hpp"
+#include "systems/LuaCollisionSystem.hpp"
 
 #include "systems/TypeRegisterSystem.hpp"
 
@@ -13,6 +14,7 @@ int main(int, char **av) {
 
     em.loadSystems<
             kengine::LuaSystem, kengine::LuaCollisionSystem,
+            kengine::PySystem,
             kengine::PhysicsSystem, TypeRegisterSystem
     >("plugins");
     em.removeSystem<TypeRegisterSystem>();

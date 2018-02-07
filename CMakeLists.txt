@@ -28,13 +28,15 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${bindir}/plugins)
 ## Kengine
 
 set(KENGINE_SFML TRUE)
+set(KENGINE_LUA TRUE)
+set(KENGINE_PYTHON TRUE)
 # set(KENGINE_TEST TRUE)
 add_subdirectory(kengine)
 
 ## API
 
 add_library(api INTERFACE)
-target_link_libraries(api INTERFACE lua)
+target_link_libraries(api INTERFACE lua puthon)
 target_include_directories(api INTERFACE common)
 
 ## Executable
@@ -57,4 +59,4 @@ cotire(${exe_name})
 
 add_subdirectory(plugins)
 
-file(COPY resources scripts sf-config.json DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+file(COPY resources scripts python sf-config.json DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})

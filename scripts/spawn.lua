@@ -15,7 +15,7 @@ else
 end
 
 function createEnemy(coord)
-    createNoNameEntity("Enemy", function (go)
+    createNamelessEntity("Enemy", function (go)
         go:getBlasterComponent().type = "enemy"
         go:getLuaComponent().meta = { target = "player" }
 

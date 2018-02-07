@@ -29,7 +29,6 @@ CameraSystem::CameraSystem(kengine::EntityManager & em)
           // }))
 {}
 
-static const putils::Point3d screenSize{ 20, 0, 11.25 };
 static const auto factor = 2;
 
 void CameraSystem::execute() noexcept {
@@ -41,8 +40,10 @@ void CameraSystem::execute() noexcept {
     // miniFrustrum.topLeft = { playerPos.x - 2 * screenSize.x, 0, playerPos.z - 2 * screenSize.z };
     // miniFrustrum.size = { 4 * screenSize.x, 0, 4 * screenSize.z };
 
-    auto & pos = _camera.getComponent<kengine::CameraComponent3d>().frustrum.topLeft;
-    const putils::Point3d dest{ playerPos.x - screenSize.x / 2, 0, playerPos.z - screenSize.z / 2 };
+    auto & frustrum = _camera.getComponent<kengine::CameraComponent3d>().frustrum;
+    auto & pos = frustrum.topLeft;
+    const auto & size = frustrum.size;
+    const putils::Point3d dest{ playerPos.x - size.x / 2, 0, playerPos.z - size.z / 2 };
     const putils::Point3d dist{ dest.x - pos.x, 0, dest.z - pos.z };
     pos.x += dist.x / factor;
     pos.z += dist.z / factor;

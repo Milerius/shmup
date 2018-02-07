@@ -34,7 +34,7 @@ if not hasEntity("background") then
     end)
 end
 
--- createNoNameEntity("GameObject", function (go)
+-- createNamelessEntity("GameObject", function (go)
 --     go:attachGraphicsComponent().appearance = "resources/wall.jpg"
 --     go:attachTransformComponent()
 --
