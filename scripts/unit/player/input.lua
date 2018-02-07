@@ -2,6 +2,7 @@
 
 local SPACE = 57
 local LEFT = 71 ; local RIGHT = 72 ; local UP = 73 ; local DOWN = 74
+local W = 22 ; local S = 18 ; local A = 0 ; local D = 3
 
 local thrust = self:getThrustComponent()
 local blaster = self:getBlasterComponent()
@@ -32,6 +33,11 @@ keyFuncs[RIGHT] = function (pressed)
         rotation.rotation = 0
     end
 end
+
+keyFuncs[W] = keyFuncs[UP]
+keyFuncs[S] = keyFuncs[DOWN]
+keyFuncs[A] = keyFuncs[LEFT]
+keyFuncs[D] = keyFuncs[RIGHT]
 
 local function onKey(key, pressed)
     local func = keyFuncs[key]

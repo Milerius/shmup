@@ -43,10 +43,10 @@ end
 --     lua.meta = { target = "player" }
 -- end)
 
-for _, go in ipairs(getGameObjectsWithGUIComponent()) do
-    go:attachLuaComponent().meta = { noCleanup = true }
-end
-
-for _, go in ipairs(getGameObjectsWithCameraComponent()) do
-    go:attachLuaComponent().meta = { noCleanup = true }
-end
+-- for _, go in ipairs(getGameObjectsWithGUIComponent()) do
+--     go:attachLuaComponent().meta = { noCleanup = true }
+-- end
+--
+-- for _, go in ipairs(getGameObjectsWithCameraComponent()) do
+--     go:attachLuaComponent().meta = { noCleanup = true }
+-- end

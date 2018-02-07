@@ -5,6 +5,7 @@ local transform = self:getTransformComponent()
 
 if not meta.init then
     meta.init = true
+    self:getBlasterComponent().shootDelay = 20
 
     local target = getEntity(meta.target)
     local targetPos = target:getTransformComponent().boundingBox.topLeft

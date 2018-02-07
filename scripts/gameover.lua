@@ -6,9 +6,13 @@ end
 __state__ = "waiting_gameover"
 
 local function cleanup(go)
+    if go:hasGUIComponent() or go:hasCameraComponent() then
+        return
+    end
+
     if go:hasLuaComponent() then
         local meta = go:getLuaComponent().meta
-        if meta and meta.noCleanup then
+        if (meta and meta.noCleanup) then
             return
         end
     end
