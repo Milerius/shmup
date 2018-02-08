@@ -7,12 +7,14 @@ def onKeyPress(key, pressed):
 
     PAGE_UP = 61
     PAGE_DOWN = 62
+    Q = 16
+    E = 4
 
-    if not pressed and (key == PAGE_UP or key == PAGE_DOWN):
+    if not pressed:
         cam.zoom = 1
-    elif key == PAGE_UP:
+    elif key == PAGE_UP or key == Q:
         cam.zoom = 1.1
-    elif key == PAGE_DOWN:
+    elif key == PAGE_DOWN or key == E:
         cam.zoom = 0.9
 
 if not cam.hasInputComponent():
